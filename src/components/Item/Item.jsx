@@ -11,6 +11,7 @@ function Item(props) {
                 <h2><b>{props.nombre || "NO DISPONIBLE"} </b></h2>
                 <p>Precio: ${props.precio || "SIN STOCK"} </p>
                 <button className="card-btn" onClick={() => agregarAlCarrito()}>Agregar al carrito</button>
+                <button className="card-btn" onClick={() => usarFiltro("Detalle")}>Ver más detalles</button>
             </div>
     );
 };

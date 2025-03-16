@@ -1,26 +1,30 @@
-const productos = [
+export const productos = [
     {
-        id: 1,
-        nombre: "Washis",
-        precio: "puta",
+        id: "washi",
+        nombre: "Washi Tape",
+        precio: "1000",
         img: "",
+        categoria: "1"
     },
     {
-        id: 1,
-        nombre: "Washis",
-        precio: "puta",
+        id: "cinta",
+        nombre: "Cinta Navideña",
+        precio: "2000",
         img: "",
+        categoria: "2"
     },
     {
-        id: 1,
-        nombre: "Washis",
-        precio: "puta",
+        id: "papelDeco",
+        nombre: "Set 20 Hojas Decorativas",
+        precio: "3000",
         img: "",
+        categoria: "3"
     },
     {
-        id: 1,
-        nombre: "Washis",
-        precio: "puta",
+        id: "cuadernillo",
+        nombre: "Cuadernillo Paperblank",
+        precio: "5000",
         img: "",
+        categoria: "4"
     },
 ];
