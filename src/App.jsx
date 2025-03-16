@@ -1,9 +1,14 @@
 import './App.css';
+import ItemListContainer from './components/ItemListContainer/ItemListContainer.jsx';
+import NavBar from './components/NavBar/NavBar.jsx';
 
 function App() {
   return (
-    <h1>Holamundo</h1>
-  );
+    <div>
+      <NavBar/>
+      <ItemListContainer greetings="YHplña"/>
+    </div>
+  )
 };
 
-export default App
+export default App;
