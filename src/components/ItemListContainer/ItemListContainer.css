@@ -4,4 +4,27 @@
     align-items: center;
     padding: 10px;
     margin: 15px;
-};
+}
+
+.filter-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    margin: 15px;
+    background-color: pink;
+}
+
+.filtros-btn{
+    background-color: pink;
+    height: 2rem;
+    border-radius: 6px;
+    padding: 5px;
+    border: none;
+}
+
+.filtros-btn:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+    background-color: rgb(240, 128, 146);
+}

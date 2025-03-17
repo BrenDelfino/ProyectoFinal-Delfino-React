@@ -1,12 +1,15 @@
 import CartWidget from '../CartWidget/CartWidget';
 import './NavBar.css';
+import logo from '../Img/logo.jpg';
 
 function NavBar() {
     return (
         <div>
             <header>
                 <nav className="nav-bar">
-                    <p>logo</p>
+                    <a>
+                        <img src={logo} alt="Logo Washify" className="logo" />
+                    </a>
                     <ul className="nav-ul">
                         <li className="nav-li">Inicio</li>
                         <li className="nav-li">Productos</li>
