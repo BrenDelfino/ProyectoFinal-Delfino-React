@@ -1,6 +1,7 @@
 import CartWidget from '../CartWidget/CartWidget';
 import './NavBar.css';
 import logo from '../Img/logo.jpg';
+import { Link } from 'react-router-dom';
 
 function NavBar() {
     return (
@@ -11,9 +12,21 @@ function NavBar() {
                         <img src={logo} alt="Logo Washify" className="logo" />
                     </a>
                     <ul className="nav-ul">
-                        <li className="nav-li">Inicio</li>
-                        <li className="nav-li">Productos</li>
-                        <li className="nav-li">Contacto</li>
+                        <li className="nav-li">
+                            <Link to="/productos">
+                                Productos
+                            </Link>
+                        </li>
+                        <li className="nav-li">
+                            <Link to="/productos/cintas">
+                                Cintas
+                            </Link>
+                        </li>
+                        <li className="nav-li">
+                            <Link to="/productos/papeleria">
+                                Papeleria
+                            </Link>
+                        </li>
                     </ul>
                     <CartWidget/>
                 </nav>
