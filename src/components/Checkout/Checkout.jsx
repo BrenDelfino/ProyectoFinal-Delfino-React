@@ -1,49 +1,103 @@
-import { useState } from 'react';
-import { useAppContext } from '../../context/context';
 import './Checkout.css';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { db } from '../../firebaseConfig';
+import { addDoc, collection } from "firebase/firestore";
+import { useAppContext } from "../../context/context";
+import { Button, TextField } from "@mui/material";
 
-function Checkout() {
-
-    const navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
+const Checkout = () => {
+    const [userInfo, setUserInfo] = useState({
         nombre: "",
-        correo: "",
+        email: "",
         telefono: "",
     });
 
-    const modificarInput = (e) => {
-        const { value, name } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
+    const [orderId, setOrderId] = useState(null); 
+
+    const { getTotalAmount, resetCart, carrito } = useAppContext();  
+
+    console.log("Carrito en Checkout:", carrito); 
+
+    const funcionFormulario = (evento) => {
+        evento.preventDefault();
+
+        if (!userInfo.nombre || !userInfo.email || !userInfo.telefono) {
+            alert("Por favor, completa toda la información.");
+            return;
+        }
+
+        let ordersCollection = collection(db, "orders");
+
+        let totalAmount = getTotalAmount();
+        
+        let order = {
+            buyer: userInfo,
+            items: carrito, 
+            total: totalAmount,
+        };
+
+        console.log("Pedido a enviar:", order);
+
+        addDoc(ordersCollection, order).then((res) => {
+            setOrderId(res.id);  
+            resetCart();
+        }).catch((error) => {
+            console.error("Error al agregar el pedido:", error);
         });
     };
 
-    const crearOrden = (e) => {
-        e.preventDefault();
-        console.log("Orden creada", formData);
-        setFormData({
-            nombre: "",
-            correo: "",
-            telefono: "",
-        });
-
-        setTimeout(() => {
-            navigate("/productos");
-        }, 1000);
+    const funcionInputs = (evento) => {
+        const { value, name } = evento.target; 
+        setUserInfo({ ...userInfo, [name]: value });
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-            <form onSubmit={crearOrden}>
-                <input type="text" placeholder='Nombre' name="nombre" value={formData.nombre} onChange={modificarInput} />
-                <input type="text" placeholder='Correo' name="correo" value={formData.correo} onChange={modificarInput} />
-                <input type="text" placeholder='Teléfono' name="telefono" value={formData.telefono} onChange={modificarInput} />
-                <input type="submit" value="Enviar" />
-            </form>
-        </div >
+        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+            {orderId ? (
+                <h2>Gracias por tu compra, tu comprobante es: {orderId}</h2>
+            ) : (
+                <form
+                    onSubmit={funcionFormulario}
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "300px",
+                        gap: "20px",
+                    }}
+                >
+                    <TextField
+                        variant="outlined"
+                        type="text"
+                        label="Nombre"
+                        name="nombre"
+                        onChange={funcionInputs}
+                        value={userInfo.nombre}
+                    />
+                    <TextField
+                        variant="outlined"
+                        type="email"
+                        label="Email"
+                        name="email"
+                        onChange={funcionInputs}
+                        value={userInfo.email}
+                    />
+                    <TextField
+                        variant="outlined"
+                        type="tel"
+                        label="Teléfono"
+                        name="telefono"
+                        onChange={funcionInputs}
+                        value={userInfo.telefono}
+                    />
+                    <Button variant="contained" type="submit">
+                        Enviar
+                    </Button>
+                    <Button variant="outlined" type="button" onClick={() => resetCart()}>
+                        Cancelar
+                    </Button>
+                </form>
+            )}
+        </div>
     );
 };
 

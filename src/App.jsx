@@ -13,6 +13,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
+          <Route path="/" element={<ItemListContainer />} />
           <Route path="/productos" element={<ItemListContainer />} />
           <Route path="/productos/:categoria" element={<ItemListContainer />} />
           <Route path="/detalle/:id" element={<ItemDetail />} />

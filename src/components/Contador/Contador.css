@@ -1,0 +1,18 @@
+.card-btn{
+    background-color: pink;
+    height: 3rem;
+    border-radius: 6px;
+    padding: 5px;
+    border: none;
+    margin: 10px;
+}
+
+.card-btn:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+    background-color: rgb(240, 128, 146);
+}
+
+.buttons-container{
+    display: inline-flex,
+}

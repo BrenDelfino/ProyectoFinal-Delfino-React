@@ -1,56 +1,49 @@
-import { Link, useParams } from 'react-router-dom';
-import './ItemDetail.css';
-import { useEffect, useState } from 'react';
-import { fetchData } from '../../fetchData';
-import Loader from '../Loader/Loader';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import Contador from "../Contador/Contador";
+import { db } from "../../firebaseConfig";
+import { Link } from 'react-router-dom';
+import { collection, getDoc, doc } from "firebase/firestore";
 import { useAppContext } from '../../context/context';
-import Contador from '../Contador/Contador';
+import './ItemDetail.css';
 
-function ItemDetail() {
 
+const ItemDetail = () => {
+    const [item, setItem] = useState({});
     const { id } = useParams();
-
-    const [detalle, setDetalle] = useState(null);
-    const [loader, setLoader] = useState(true);
-
-    const { agregarAlCarrito, contador } = useAppContext();
+    const { agregarAlCarrito } = useAppContext();
 
     useEffect(() => {
-        fetchData().then(response => {
-            const detalleDelProducto = response.find(el => el.id === parseInt(id));
-            setDetalle(detalleDelProducto);
-            setLoader(false);
-        })
-            .catch(err => console.error(err));
+        const refCollection = collection(db, "products");
+        const refDoc = doc(refCollection, id);
+        getDoc(refDoc).then((res) => {
+            setItem({ id: res.id, ...res.data() });
+        });
     }, [id]);
 
     return (
-        loader ? <Loader />
-            :
-            detalle ? 
-            <div className="card-detail">
-                <h2>{detalle.nombre || "NO DISPONIBLE"}</h2>
-                <h3>Precio: ${detalle.precio || "SIN PRECIO"}</h3>
-                <p>Descripción: {detalle.descripcion}</p>
-                {
-                    detalle.oferta && <p><b>PRODUCTO EN OFERTA</b></p>
+        <div className="card-detail">
+            <h3>Precio: ${item.precio || "SIN PRECIO"}</h3>
+            <p>Descripción: {item.descripcion}</p>
+            <button
+                disabled={!item.nombre}
+                className="card-btn"
+                onClick={() =>
+                    agregarAlCarrito({
+                        id: item.id,
+                        nombre: item.nombre,
+                        precio: Number(item.precio),
+                        cantidad: 1
+                    })
                 }
-                {
-                    detalle.stock > 0 ?
-                    <>
-                        <p>Quedan {detalle.stock} unidades</p>
-                        <Contador stock={detalle.stock} />
-                    </>
-                        :
-                        <p>Producto agotado!</p>
-                }
-                <button disabled={detalle.stock === 0} className="card-detail-btn" onClick={() => agregarAlCarrito({ id: detalle.id, nombre: detalle.nombre, precio: detalle.precio, cantidad: contador })}>Agregar al carrito</button>
-                <Link to="/productos">
-                    <button className="card-detail-btn">Volver al inicio</button>
-                </Link>
-            </div>
-            :
-            <p>Producto no encontrado con el id {id}</p>
+            >
+                Agregar al carrito
+            </button>
+            <Link to="/productos">
+                <button className="card-btn">Volver al inicio</button>
+            </Link>
+            <Contador item={item}/>
+        </div>
     );
 };
 

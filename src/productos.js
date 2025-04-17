@@ -1,6 +1,6 @@
 export const productos = [
     {
-        id: 1,
+        //id: 1,
         nombre: "Washi Tape",
         precio: "1000",
         img: "",
@@ -9,7 +9,7 @@ export const productos = [
         stock: "10"
     },
     {
-        id: 2,
+        //id: 2,
         nombre: "Cinta Navideña",
         precio: "2000",
         img: "",
@@ -18,7 +18,7 @@ export const productos = [
         stock: "5"
     },
     {
-        id: 3,
+        //id: 3,
         nombre: "Set 20 Hojas Decorativas",
         precio: "3000",
         img: "",
@@ -27,7 +27,7 @@ export const productos = [
         stock: "2"
     },
     {
-        id: 4,
+        //id: 4,
         nombre: "Cuadernillo Paperblank",
         precio: "5000",
         img: "",

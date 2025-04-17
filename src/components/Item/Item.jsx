@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './Item.css';
 import { useAppContext } from '../../context/context';
 
-function Item({ id, nombre, precio }) {
+function Item({ id, nombre, precio}) {
 
     const { agregarAlCarrito } = useAppContext();
 
@@ -10,7 +10,7 @@ function Item({ id, nombre, precio }) {
         <div className="card">
             <h2>{nombre || "NO DISPONIBLE"}</h2>
             <h3>Precio: ${precio || "SIN PRECIO"}</h3>
-            <button disabled={!nombre} className="card-btn" onClick={() => agregarAlCarrito({id, nombre, precio, cantidad: 1})}>Agregar al carrito</button>
+            <button disabled={!nombre} className="card-btn" onClick={() => agregarAlCarrito({id, nombre, precio: Number(precio), cantidad: 1})}>Agregar al carrito</button>
             <Link to={`/detalle/${id}`}>
                 <button disabled={!nombre} className="card-btn">
                     Ver detalle
@@ -21,3 +21,7 @@ function Item({ id, nombre, precio }) {
 };
 
 export default Item;
+
+export const agregarAlCarrito = (item) => {
+    console.log("Agregando al carrito:", item);
+};
