@@ -1,54 +1,58 @@
+import { useEffect, useState } from 'react';
+import { fetchData } from '../../fetchData';
 import Item from '../Item/Item';
-import { productos } from '../../productos';
+import Loader from '../Loader/Loader';
 import './ItemListContainer.css';
-import React, { useEffect, useState } from 'react'; 
-import Loader from '../Loader/loader';
-import Carousel from '../Carousel/carousel';
 import { useParams } from 'react-router-dom';
+import Carousel from '../Carousel/carousel';
 
 function ItemListContainer() {
 
-    const[todosLosProductos, setTodosLosProductos] = useState([]);
-    const[misProductos, setMisProductos] = useState([]);
-    const[loading, setLoading] = useState(true);
-    const {categoria} = useParams();
+    const [todosLosProductos, setTodosLosProductos] = useState([]); // Este estado solo me va a servir como una especie de base de datos local en mi proyecto para no tener que seguir solicitando infinitas veces de acuerdo a los filtros que aplique. Si aplico el filtro de no mostrar productos, eventualmente puedo perder esa información. Así que acá tenemos un backup
+    const [misProductos, setMisProductos] = useState([]); // Los productos que vamos a mostrar
+    const [loading, setLoading] = useState(true);
 
-    const fetchData = () => new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(productos);  
-        }, 2000);
-    });
+    const { categoria } = useParams();
 
     useEffect(() => {
+        if (todosLosProductos.length === 0) {
             fetchData().then(response => {
+                setTodosLosProductos(response);
+                if (categoria) {
+                    const productosFiltrados = response.filter(el => el.categoria === categoria);
+                    setMisProductos(productosFiltrados);
+                    setLoading(false);
+                } else {
+                    setMisProductos(response);
+                    setLoading(false);
+                };
+            })
+                .catch(err => console.error(err));
+        } else {
             if (categoria) {
-                const productosFiltrados = response.filter(el => el.categoria === categoria);
+                const productosFiltrados = todosLosProductos.filter(el => el.categoria === categoria);
                 setMisProductos(productosFiltrados);
             } else {
-                setMisProductos(response);
-            }
-            setLoading(false);
-        })
-        .catch(err => {
-            console.error(err);
-            setLoading(false);
-        });
-    },[categoria]);
+                setMisProductos(todosLosProductos);
+            };
+        }
+
+    }, [categoria]);
 
     return (
         <>
             <Carousel/>
-            <div className="card-container">
+            <div className="container-cards">
                 {
                     loading ? <Loader/> :
-                        misProductos.map ((el, index) => {
+                        misProductos.map((el, index) => {
                             return (
-                            <Item key={index} id={el.id} nombre={el.nombre} precio={el.precio} />
+                                <Item key={index} id={el.id} nombre={el.nombre} precio={el.precio} />
                             );
                         })
                 }
             </div>
-            </>
+        </>
     );
 };
 

@@ -2,4 +2,4 @@
 
 React + Vite
  
-EXPLICAR PROYECTO ACA
+Proyecto final de Ecommerce sobre WASHIFY, una marca personal de productos stationery/librería
