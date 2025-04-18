@@ -24,7 +24,7 @@ const ItemDetail = () => {
     return (
         <div className="card-detail">
             <h3>Precio: ${item.precio || "SIN PRECIO"}</h3>
-            <p>Descripción: {item.descripcion}</p>
+            <p>{item.descripcion}</p>
             <button
                 disabled={!item.nombre}
                 className="card-btn"

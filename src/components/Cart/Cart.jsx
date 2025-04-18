@@ -4,31 +4,31 @@ import './Cart.css';
 
 function Cart() {
 
-    const { carrito, eliminarProducto, limpiarCarrito } = useAppContext();
+    const { carrito, eliminarProducto, resetCart} = useAppContext();
 
     return (
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div className='contenedor-carrito'>
             {carrito.length > 0 ?
                 <>
                     {carrito.map(el => {
                         return (
-                            <div key={el.id} style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", border: "solid 1px gray" }}>
+                            <div key={el.id} className="carrito-item">
                                 <p>{el.nombre}</p>
                                 <p>${el.precio}</p>
                                 <p>Cantidad: {el.cantidad}</p>
                                 <p>Subtotal: ${el.cantidad * el.precio}</p>
-                                <button onClick={() => eliminarProducto(el.id)}>Eliminar del carrito</button>
+                                <button className="card-btn" onClick={() => eliminarProducto(el.id)}>Eliminar del carrito</button>
                             </div>
                         )
                     })}
                     <p>Total: ${carrito.reduce((acc, el) => acc + (el.precio * el.cantidad), 0)}</p>
-                    <button onClick={() => limpiarCarrito()}>Limpiar carrito</button>
+                    <button className="carrito-vaciar" onClick={() => resetCart()}>Vaciar carrito</button>
                     <Link to="/checkout">
-                        <button>Finalizar compra</button>
+                        <button className="finalizar-compra">Finalizar compra</button>
                     </Link>
                 </>
                 :
-                <p>Carrito vacío</p>
+                <p>Carrito vacio</p>
             }
         </div >
     );

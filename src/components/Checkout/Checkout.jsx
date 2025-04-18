@@ -16,13 +16,11 @@ const Checkout = () => {
 
     const { getTotalAmount, resetCart, carrito } = useAppContext();  
 
-    console.log("Carrito en Checkout:", carrito); 
-
     const funcionFormulario = (evento) => {
         evento.preventDefault();
 
         if (!userInfo.nombre || !userInfo.email || !userInfo.telefono) {
-            alert("Por favor, completa toda la información.");
+            Swal.fire("Por favor completa toda la información");
             return;
         }
 
@@ -35,8 +33,6 @@ const Checkout = () => {
             items: carrito, 
             total: totalAmount,
         };
-
-        console.log("Pedido a enviar:", order);
 
         addDoc(ordersCollection, order).then((res) => {
             setOrderId(res.id);  
@@ -92,7 +88,7 @@ const Checkout = () => {
                     <Button variant="contained" type="submit">
                         Enviar
                     </Button>
-                    <Button variant="outlined" type="button" onClick={() => resetCart()}>
+                    <Button variant="outlined" color="error" type="button" onClick={() => resetCart()}>
                         Cancelar
                     </Button>
                 </form>

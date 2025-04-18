@@ -36,7 +36,7 @@ function ItemListContainer() {
     return (
         <>
             <Carousel/>
-            <div className="container-cards">
+            <div className="card-container">
                 {
                         misProductos.map((el, index) => {
                             return (
